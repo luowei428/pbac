@@ -1,0 +1,18 @@
+{
+  "description": "One policy to rule them all.",
+  "subjects": ["users:<[peter|ken]>", "users:maria", "groups:admins"],
+  "actions" : ["delete", "<[create|update]>"],
+  "effect": "allow",
+  "resources": [
+    "resources:articles:<.*>",
+    "resources:printer"
+  ],
+  "conditions": {
+    "remoteIP": {
+      "type": "CIDRCondition",
+      "options": {
+        "cidr": "192.168.0.1/16"
+      }
+    }
+  }
+}
