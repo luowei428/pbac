@@ -1,7 +1,6 @@
 # Policy Based Access Control
 
-Based on [Ladon](https://github.com/ory/ladon) this is Java based implementation.
-
+This is Java based implementation based on [Ladon](https://github.com/ory/ladon)
 
 Policy Based Access Control (PBAC) is similar to [Role Based Access Control](https://en.wikipedia.org/wiki/Role-based_access_control)
 or [Access Control Lists](https://en.wikipedia.org/wiki/Access_control_list).
@@ -11,7 +10,7 @@ and large organizations. PBAC and Ladon are inspired by [AWS IAM Policies](http:
 
 # Concepts
 
-Ladon is an access control library that answers the question:
+PBAC is an access control library that answers the question:
 
 > **Who** is **able** to do **what** on **something** given some **context**
 
@@ -24,7 +23,7 @@ Ladon is an access control library that answers the question:
     request date, the resource owner name, the department ken is working in or any other information you want to pass along.
     (optional)
 
-To decide what the answer is, Ladon uses policy documents which can be represented as JSON
+To decide what the answer is, PBAC uses policy documents which can be represented as JSON
 
 ```json
 {
