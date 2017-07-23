@@ -1,7 +1,7 @@
 package com.rbc.iam.policy.web;
 
 import com.rbc.iam.policy.model.Policy;
-import com.rbc.iam.policy.model.PolicyRepository;
+import com.rbc.iam.policy.repository.PolicyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

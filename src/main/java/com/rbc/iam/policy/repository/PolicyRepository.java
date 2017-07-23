@@ -1,5 +1,6 @@
-package com.rbc.iam.policy.model;
+package com.rbc.iam.policy.repository;
 
+import com.rbc.iam.policy.model.Policy;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
