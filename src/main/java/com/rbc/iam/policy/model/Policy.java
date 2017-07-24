@@ -53,7 +53,7 @@ public class Policy implements Serializable {
 
     // AllowAccess returns true if the policy effect is allow, otherwise false.
     public Boolean allowAccess(){
-        return false;
+        return effect.equals("allow");
     }
 
     // GetEffect returns the policies effect which might be 'allow' or 'deny'.
@@ -76,20 +76,22 @@ public class Policy implements Serializable {
         return this.conditions;
     }
 
-    // GetStartDelimiter returns the delimiter which identifies the beginning of a regular expression.
-    @JsonIgnore()
-    public char getStartDelimiter() {
-        return '<';
-    }
 
-    // GetEndDelimiter returns the delimiter which identifies the end of a regular expression.
-    @JsonIgnore
-    public char getEndDelimiter() {
-        return '>';
+    public void addCondition(String key, Condition condition) {
+        conditions.put(key, condition);
     }
 
 
-    public void addCondition(String name, Condition condition) {
-        conditions.put(name, condition);
+    public Boolean passesConditions(Request request){
+        for(Map.Entry<String, Condition> entry : conditions.entrySet()) {
+            String key = entry.getKey();
+            Condition condition = entry.getValue();
+
+            if(!condition.fullfills(key,request)){
+                return  false;
+            }
+        }
+
+        return true;
     }
 }
