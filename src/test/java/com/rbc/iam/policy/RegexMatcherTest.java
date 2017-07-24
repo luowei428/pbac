@@ -1,7 +1,6 @@
 package com.rbc.iam.policy;
 
 import com.rbc.iam.policy.model.RegexMatcher;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -14,33 +13,17 @@ import static org.hamcrest.Matchers.equalTo;
 public class RegexMatcherTest {
 
     RegexMatcher matcher = new RegexMatcher();
-    List<String> actions=  Arrays.asList("delete", "<[create|update]>");
-    List<String> subjects = Arrays.asList("users:<[peter|ken]>", "users:maria", "groups:admins");
+    List<String> actions=  Arrays.asList("delete", "<create|update>");
+    List<String> subjects = Arrays.asList("users:<peter|ken>", "users:maria", "groups:admins");
 
     @Test
     public void testStripDelimiters_withDelimiters(){
 
-        String expression = matcher.stripDelimiters("<[create|update]>");
+        String expression = matcher.formatRegEx("<create|update>");
 
-        assertThat(expression, equalTo("[create|update]"));
+        assertThat(expression, equalTo("^(create|update)$"));
     }
 
-    @Test
-    public void testStripDelimiters_withStartOnlyDelimiter(){
-        RegexMatcher matcher = new RegexMatcher();
-
-        String expression = matcher.stripDelimiters("<[create|update]");
-
-        assertThat(expression, equalTo("[create|update]"));
-    }
-
-    @Test
-    public void testStripDelimiters_withEndOnlyDelimiter(){
-
-        String expression = matcher.stripDelimiters("[create|update]>");
-
-        assertThat(expression, equalTo("[create|update]"));
-    }
 
     @Test
     public void testMatches_nonRegex(){
@@ -60,19 +43,19 @@ public class RegexMatcherTest {
     public void testMatches_simpleRegex1(){
         Boolean matches = matcher.Matches(actions, "create");
 
-        assertThat(matches, equalTo(false));
+        assertThat(matches, equalTo(true));
     }
 
     @Test
     public void testMatches_simpleRegex2(){
         Boolean matches = matcher.Matches(actions, "update");
 
-        assertThat(matches, equalTo(false));
+        assertThat(matches, equalTo(true));
     }
 
     @Test
     public void testMatches_compleRegex1(){
-        Boolean matches = matcher.Matches(subjects, "peter");
+        Boolean matches = matcher.Matches(subjects, "users:peter");
 
         assertThat(matches, equalTo(true));
     }

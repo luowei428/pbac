@@ -17,9 +17,9 @@ public class TestPolicyFactory {
             {
                 id = "1";
                 description =  "One policy to rule them all.";
-                subjects = Arrays.asList("users:<[peter|ken]>", "users:maria", "groups:admins");
+                subjects = Arrays.asList("users:<(peter|ken)>", "users:maria", "groups:admins");
                 resources = Arrays.asList("resources:articles:<.*>", "resources:printer");
-                actions=  Arrays.asList("delete", "<[create|update]>");
+                actions=  Arrays.asList("delete", "<(create|update)>");
                 effect = "allow";
             }
         };
