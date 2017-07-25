@@ -1,5 +1,7 @@
 package com.rbc.iam.policy.model;
 
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Service
 public class RegexMatcher implements ExpressionMatcher {
 
     private static final char regexStart = '<';

@@ -2,6 +2,7 @@ package com.rbc.iam.policy.web;
 
 import com.rbc.iam.policy.model.Policy;
 import com.rbc.iam.policy.repository.PolicyRepository;
+import com.rbc.iam.policy.service.PolicyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,11 +23,12 @@ import java.util.List;
 @RequestMapping(path="/policies")
 
 public class PolicyController {
-    private final PolicyRepository repository;
+
+    private final PolicyService service;
 
     @Autowired
-    public PolicyController(PolicyRepository repository){
-        this.repository = repository;
+    public PolicyController(PolicyService service){
+        this.service = service;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -35,7 +37,7 @@ public class PolicyController {
 
         httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
-        List<Policy> list = repository.findAll();
+        List<Policy> list = service.findAll();
 
         return new ResponseEntity<>(list, httpHeaders, HttpStatus.OK);
 
@@ -49,7 +51,7 @@ public class PolicyController {
         {
             return new ResponseEntity<>(null, httpHeaders, HttpStatus.EXPECTATION_FAILED);
         }
-        final Policy savedItem = repository.saveAndFlush(item);
+        final Policy savedItem = service.create(item);
 
         httpHeaders.setLocation(ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")

@@ -5,9 +5,11 @@ import com.rbc.iam.policy.model.Policy;
 import com.rbc.iam.policy.model.Request;
 import com.rbc.iam.policy.repository.PolicyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PolicyServiceImpl implements PolicyService {
 
     private final PolicyRepository repository;
@@ -19,6 +21,18 @@ public class PolicyServiceImpl implements PolicyService {
         this.matcher = matcher;
     }
 
+
+    @Override
+    public Policy create(Policy policy) {
+        Policy createdPolicy = this.repository.saveAndFlush(policy);
+
+        return createdPolicy;
+    }
+
+    @Override
+    public List<Policy> findAll() {
+        return repository.findAll();
+    }
 
     @Override
     public Boolean isAllowed(Request request) {

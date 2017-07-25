@@ -6,13 +6,32 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Entity
 public class Policy implements Serializable {
 
+    static public Policy Create(
+            String id,
+            String description,
+            List<String> subjects,
+            List<String> resources,
+            List<String> actions,
+            String effect){
 
+        Policy policy = new Policy();
+
+        policy.id = id;
+        policy.description = description;
+        policy.subjects = subjects;
+        policy.effect = effect;
+        policy.resources = resources;
+        policy.actions = actions;
+
+        return policy;
+    }
 
     @Id
     protected String id;
@@ -34,7 +53,7 @@ public class Policy implements Serializable {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    protected Map<String,Condition> conditions;
+    protected Map<String,Condition> conditions = new HashMap<>();
 
     // GetID returns the policies id.
     public String getId() {

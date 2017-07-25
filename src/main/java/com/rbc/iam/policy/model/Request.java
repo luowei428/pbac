@@ -17,7 +17,7 @@ public class Request {
     protected String subject;
 
     // Context is the request's environmental context.
-    protected Properties context;
+    protected Properties context = new Properties();
 
     public String getResource() {
         return resource;
