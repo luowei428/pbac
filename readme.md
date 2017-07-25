@@ -25,12 +25,18 @@ PBAC is an access control library that answers the question:
 
 To decide what the answer is, PBAC uses policy documents which can be represented as JSON
 
+
+
 ```json
+POST /policies HTTP/1.1
+Host: localhost:5000
+Content-Type: application/json
+
 {
     "id": "1",
     "description": "One policy to rule them all.",
     "subjects": [
-        "users:<[peter|ken]>",
+        "users:<peter|ken>",
         "users:maria",
         "groups:admins"
     ],
@@ -41,12 +47,11 @@ To decide what the answer is, PBAC uses policy documents which can be represente
     ],
     "actions": [
         "delete",
-        "<[create|update]>"
+        "<create|update>"
     ],
     "conditions": {
         "resourceOwner": {
-            "type": "EqualsSubjectCondition",
-            "options": {}
+            "type": "EqualsSubjectCondition"
         },
         "isBankUser": {
             "type": "StringEqualCondition",
@@ -61,15 +66,20 @@ To decide what the answer is, PBAC uses policy documents which can be represente
 and can answer access requests that look like:
 
 ```json
-{
-  "subject": "users:peter",
-  "action" : "delete",
-  "resource": "resource:articles:ladon-introduction",
-  "context": {
-    "resourceOwner": "users:peter",
-    "isBankUser":"true"
-  }
-}
+ POST /policies/isAllowed HTTP/1.1
+ Host: localhost:5000
+ Content-Type: application/json
+ 
+ 
+ {
+ 	"subject":"users:ken",
+ 	"resource":"resources:articles:1234",
+ 	"action":"create",
+ 	"context":{
+ 		"isBankUser":"true",
+ 		"resourceOwner":"users:ken"
+ 	}
+ }
 ```
 
 Default implementation is using H2 in-memory database (http://localhost:5000/h2-console/) and exposes REST endpoint on http://localhost:5000/policies
