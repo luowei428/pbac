@@ -1,6 +1,7 @@
 package com.rbc.iam.policy.web;
 
 import com.rbc.iam.policy.model.Policy;
+import com.rbc.iam.policy.model.Request;
 import com.rbc.iam.policy.repository.PolicyRepository;
 import com.rbc.iam.policy.service.PolicyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +59,24 @@ public class PolicyController {
                 .buildAndExpand(item.getId()).toUri());
 
         return new ResponseEntity<>(savedItem, httpHeaders, HttpStatus.CREATED);
+    }
+
+    @RequestMapping( method = RequestMethod.POST , path = "/isAllowed")
+    public ResponseEntity<?> isAllowed(@RequestBody Request item ){
+        HttpHeaders httpHeaders = new HttpHeaders();
+
+        if (item == null)
+        {
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.EXPECTATION_FAILED);
+        }
+
+        Boolean isAllowed = service.isAllowed(item);
+
+        if(!isAllowed){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 }
